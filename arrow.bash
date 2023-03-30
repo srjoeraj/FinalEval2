@@ -28,11 +28,11 @@ fi
 echo " "
 echo "------------------------------------------------------------------------------"
 echo " "
-read -p "Enter your UID: " uid
+read -p "Enter your UID: " UID
 
-ssh-keygen -f /home/csn400/.ssh/key_$uid -q -N ""
+ssh-keygen -f /home/csn400/.ssh/key_$UID -q -N ""
 
-echo "SSH key key_$uid generated"
+echo "SSH key key_$UID generated"
 echo " "
 echo "------------------------------------------------------------------------------"
 
@@ -85,22 +85,22 @@ read -rsn1 -p"Press Ctrl+D to exit if above input is incorrect. Else Press Enter
 
 echo "------------------------------------------------------------------------------"
 echo " "
-ssh-copy-id -i /home/csn400/.ssh/key_$uid.pub -p $p1 -f scott$puid1@$paddr1
-echo "SSH key 'key_$uid.pub' copied over to scott$puid1 at $paddr1"
+ssh-copy-id -i /home/csn400/.ssh/key_$UID.pub -p $p1 -f scott$puid1@$paddr1
+echo "SSH key 'key_$UID.pub' copied over to scott$puid1 at $paddr1"
 read -rsn1 -p"Press any key to continue....";echo
 echo " "
 echo "------------------------------------------------------------------------------"
 
 echo " "
-ssh-copy-id -i /home/csn400/.ssh/key_$uid.pub -p $p2 -f scott$puid2@$paddr2
-echo "SSH key 'key_$uid.pub' copied over to scott$puid2 at $paddr2"
+ssh-copy-id -i /home/csn400/.ssh/key_$UID.pub -p $p2 -f scott$puid2@$paddr2
+echo "SSH key 'key_$UID.pub' copied over to scott$puid2 at $paddr2"
 read -rsn1 -p"Press any key to continue....";echo
 echo " "
 echo "------------------------------------------------------------------------------"
 
 echo " "
-ssh-copy-id -i /home/csn400/.ssh/key_$uid.pub -p $p3 -f scott$puid3@$paddr3
-echo "SSH key 'key_$uid.pub' copied over to scott$puid3 at $paddr3"
+ssh-copy-id -i /home/csn400/.ssh/key_$UID.pub -p $p3 -f scott$puid3@$paddr3
+echo "SSH key 'key_$UID.pub' copied over to scott$puid3 at $paddr3"
 read -rsn1 -p"Press any key to continue....";echo
 echo " "
 echo "------------------------------------------------------------------------------"
@@ -108,4 +108,72 @@ echo "--------------------------------------------------------------------------
 
 
 
+echo " "
+echo " ██▓ ██▓███  ▄▄▄█████▓ ▄▄▄       ▄▄▄▄    ██▓    ▓█████   ██████ ";
+echo "▓██▒▓██░  ██▒▓  ██▒ ▓▒▒████▄    ▓█████▄ ▓██▒    ▓█   ▀ ▒██    ▒ ";
+echo "▒██▒▓██░ ██▓▒▒ ▓██░ ▒░▒██  ▀█▄  ▒██▒ ▄██▒██░    ▒███   ░ ▓██▄   ";
+echo "░██░▒██▄█▓▒ ▒░ ▓██▓ ░ ░██▄▄▄▄██ ▒██░█▀  ▒██░    ▒▓█  ▄   ▒   ██▒";
+echo "░██░▒██▒ ░  ░  ▒██▒ ░  ▓█   ▓██▒░▓█  ▀█▓░██████▒░▒████▒▒██████▒▒";
+echo "░▓  ▒▓▒░ ░  ░  ▒ ░░    ▒▒   ▓▒█░░▒▓███▀▒░ ▒░▓  ░░░ ▒░ ░▒ ▒▓▒ ▒ ░";
+echo " ▒ ░░▒ ░         ░      ▒   ▒▒ ░▒░▒   ░ ░ ░ ▒  ░ ░ ░  ░░ ░▒  ░ ░";
+echo " ▒ ░░░         ░        ░   ▒    ░    ░   ░ ░      ░   ░  ░  ░  ";
+echo " ░                          ░  ░ ░          ░  ░   ░  ░      ░  ";
+echo "                                      ░                         ";
+echo " "
 
+read -p "Enter fist and last digit of your UID: " port
+
+read -p "Enter partner 1 first and last digit UID: " x1
+read -p "Enter partner 2 first and last digit UID: " x2
+read -p "Enter partner 3 first and last digit UID: " x3
+
+echo "#!/bin/bash" > iptables_$UID.bash
+echo "Author: srjoeraj" >> iptables_$UID.bash
+echo " " >> iptables_$UID.bash
+
+echo "iptables -F" >> iptables_$UID.bash
+
+
+echo "iptables -X" >> iptables_$UID.bash
+echo "iptables -t nat -F" >> iptables_$UID.bash
+
+echo " " >> iptables_$UID.bash
+
+echo 'iptables -P INPUT DROP' >> iptables_$UID.bash
+echo 'iptables -P FORWARD DROP' >> iptables_$UID.bash
+echo 'iptables -P OUTPUT ACCEPT' >> iptables_$UID.bash
+
+echo " "
+echo 'iptables -N SSH-ACCEPT' >> iptables_$UID.bash
+echo 'iptables -N APACHE-ACCEPT' >> iptables_$UID.bash
+echo 'iptables -N MARIADB-ACCEPT' >> iptables_$UID.bash
+echo " "  >> iptables_$UID.bash
+echo "iptables -A INPUT -p tcp -m state --state NEW --dport 22$port -j SSH-ACCEPT" >> iptables_$UID.bash
+echo "iptables -A INPUT -p tcp -m state --state NEW --dport 88$port -j APACHE-ACCEPT" >> iptables_$UID.bash
+echo "iptables -A INPUT -p tcp -m state --state NEW,ESTABLISHED --dport 33$port -j MARIADB-ACCEPT" >> iptables_$UID.bash
+
+echo "iptables -A INPUT -p tcp -m state --state NEW,RELATED,ESTABLISHED --sport 22$x1 -j ACCEPT" >> iptables_$UID.bash
+echo "iptables -A INPUT -p tcp -m state --state NEW,RELATED,ESTABLISHED --sport 22$x2 -j ACCEPT" >> iptables_$UID.bash
+echo "iptables -A INPUT -p tcp -m state --state NEW,RELATED,ESTABLISHED --sport 22$x3 -j ACCEPT" >> iptables_$UID.bash
+echo "iptables -A INPUT -p tcp -m state --state NEW,RELATED,ESTABLISHED --sport 88$x2 -j ACCEPT" >> iptables_$UID.bash
+echo "iptables -A INPUT -p tcp -m state --state NEW,RELATED,ESTABLISHED --sport 88$x3 -j ACCEPT" >> iptables_$UID.bash
+echo "iptables -A INPUT -p tcp -m state --state NEW,RELATED,ESTABLISHED --sport 88$x1 -j ACCEPT" >> iptables_$UID.bash
+echo "iptables -A INPUT -p tcp -m state --state NEW,RELATED,ESTABLISHED --sport 3306 -j ACCEPT" >> iptables_$UID.bash
+echo " " >> iptables_$UID.bash
+echo 'iptables -A INPUT -j LOG --log-prefix " INPUT-DROP"' >> iptables_$UID.bash
+echo 'iptables -A SSH-ACCEPT -j LOG --log-prefix " SSH-ACCEPTED"' >> iptables_$UID.bash
+echo 'iptables -A SSH-ACCEPT -j ACCEPT' >> iptables_$UID.bash
+echo " " >> iptables_$UID.bash
+echo 'iptables -A APACHE-ACCEPT -j LOG --log-prefix " APACHE-ACCEPTED"' >> iptables_$UID.bash
+echo 'iptables -A APACHE-ACCEPT -j ACCEPT' >> iptables_$UID.bash
+echo " "  >> iptables_$UID.bash
+echo 'iptables -A MARIADB-ACCEPT -j LOG --log-prefix " MARIADB-ACCEPTED"' >> iptables_$UID.bash
+echo 'iptables -A MARIADB-ACCEPT -j ACCEPT'>> iptables_$UID.bash
+echo " " >> iptables_$UID.bash
+echo "iptables -t nat -A PREROUTING -p tcp --dport 3306 -j REDIRECT --to-port 33$port" >> iptables_$UID.bash
+echo " " >> iptables_$UID.bash
+echo "iptables -I INPUT -p tcp -m state --state ESTABLISHED,RELATED -j ACCEPT" >> iptables_$UID.bash
+
+echo "------------------------------------------------------------------------------"
+echo "Run the iptables_UID.bash script!"
+echo "------------------------------------------------------------------------------"
