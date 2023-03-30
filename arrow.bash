@@ -30,7 +30,7 @@ echo "--------------------------------------------------------------------------
 echo " "
 read -p "Enter your UID: " uid
 
-#ssh-keygen -f /home/csn400/.ssh/key_$uid -q -N ""
+ssh-keygen -f /home/csn400/.ssh/key_$uid -q -N ""
 
 echo "SSH key key_$uid generated"
 echo " "
