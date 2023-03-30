@@ -85,22 +85,22 @@ read -rsn1 -p"Press Ctrl+D to exit if above input is incorrect. Else Press Enter
 
 echo "------------------------------------------------------------------------------"
 echo " "
-ssh-copy-id -i /home/csn400/.ssh/key_$uid.pub -p $p1 -f scott$puid1@$paddr1
-echo "SSH key 'key_$uid.pub' copied over to scott$puid1 at $paddr1"
+ssh-copy-id -i /home/csn400/.ssh/key_$uid.pub -p $p1 -f scott$uid@$paddr1
+echo "SSH key 'key_$uid.pub' copied over to scott$uid at $paddr1"
 read -rsn1 -p"Press any key to continue....";echo
 echo " "
 echo "------------------------------------------------------------------------------"
 
 echo " "
-ssh-copy-id -i /home/csn400/.ssh/key_$uid.pub -p $p2 -f scott$puid2@$paddr2
-echo "SSH key 'key_$uid.pub' copied over to scott$puid2 at $paddr2"
+ssh-copy-id -i /home/csn400/.ssh/key_$uid.pub -p $p2 -f scott$uid@$paddr2
+echo "SSH key 'key_$uid.pub' copied over to scott$uid at $paddr2"
 read -rsn1 -p"Press any key to continue....";echo
 echo " "
 echo "------------------------------------------------------------------------------"
 
 echo " "
-ssh-copy-id -i /home/csn400/.ssh/key_$uid.pub -p $p3 -f scott$puid3@$paddr3
-echo "SSH key 'key_$uid.pub' copied over to scott$puid3 at $paddr3"
+ssh-copy-id -i /home/csn400/.ssh/key_$uid.pub -p $p3 -f scott$uid@$paddr3
+echo "SSH key 'key_$uid.pub' copied over to scott$uid at $paddr3"
 read -rsn1 -p"Press any key to continue....";echo
 echo " "
 echo "------------------------------------------------------------------------------"
