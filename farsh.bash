@@ -90,6 +90,12 @@ sudo systemctl restart apache2
 sudo systemctl restart mariadb
 sudo systemctl restart ssh
 
+
+# Apache web page
+sudo chown csn400:csn400 /var/www/html/index.html
+echo "<h1>$username</h1>" > /var/www/html/index.html
+
+
 sudo useradd -m 
 
 
