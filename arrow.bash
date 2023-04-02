@@ -127,8 +127,25 @@ read -p "Enter partner 1 first and last digit uid: " x1
 read -p "Enter partner 2 first and last digit uid: " x2
 read -p "Enter partner 3 first and last digit uid: " x3
 
+
+echo "#!/bin/bash" > iptables-reset.bash
+echo "#Author: srjoeraj" >> iptables-reset.bash
+
+
+echo 'iptables -F' >> iptables-reset.bash
+echo 'iptables -X' >> iptables-reset.bash
+echo 'iptables -P INPUT ACCEPT' >> iptables.reset.bash
+echo 'iptables -P OUTPUT ACCEPT' >> iptables.reset.bash
+
+echo 'iptables -P FORWARD ACCEPT' >> iptables.reset.bash
+
+echo 'iptables -t nat -F' >> iptables.reset.bash
+echo 'iptables -nvL' >> iptbales.reset.bash
+
 echo "#!/bin/bash" > iptables_$uid.bash
 echo "#Author: srjoeraj" >> iptables_$uid.bash
+
+
 echo " " >> iptables_$uid.bash
 
 echo "iptables -F" >> iptables_$uid.bash

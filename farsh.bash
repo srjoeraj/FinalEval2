@@ -41,7 +41,7 @@ username=$4
 sudo apt update
 
 # Install the services
-sudo apt install -y apache2 mariadb-server openssh-server vim
+sudo apt install -y apache2 mariadb-server openssh-server vim iptables-persistent
 
 # Enable and start the services
 sudo systemctl enable apache2
@@ -105,8 +105,9 @@ useradd -m $username -s /bin/bash
 # Set the user's password
 echo  "$username:password" | chpasswd 
 
-# Add the user to the wheel group
+# Add the user to the sudo group
 usermod -aG sudo $username
+
 
 echo "User '$username' created and added to the sudo group."
 
@@ -116,6 +117,79 @@ CREATE USER '$username'@'%' IDENTIFIED BY 'password';
 GRANT SELECT ON *.* TO '$username'@'%';
 FLUSH PRIVILEGES;
 EOF
+
+read -p "Enter the name of User 1: " username1
+
+# Create the new user
+useradd -m $username1 -s /bin/bash
+
+# Set the user's password
+echo  "$username1:password" | chpasswd 
+
+echo "User '$username1' created and added to the sudo group."
+
+# Setup a read only user in MariaDB and a new user on Ubuntu
+mysql -u root -ppassword <<EOF
+CREATE USER '$username1'@'%' IDENTIFIED BY 'password';
+GRANT SELECT ON *.* TO '$username1'@'%';
+FLUSH PRIVILEGES;
+EOF
+
+echo "---------------------------------------------------"
+
+# Create the new user
+
+read -p "Enter the name of User 2: " username2
+useradd -m $username2 -s /bin/bash
+
+# Set the user's password
+echo  "$username2:password" | chpasswd 
+
+echo "User '$username2' created and added to the sudo group."
+
+# Setup a read only user in MariaDB and a new user on Ubuntu
+mysql -u root -ppassword <<EOF
+CREATE USER '$username2'@'%' IDENTIFIED BY 'password';
+GRANT SELECT ON *.* TO '$username2'@'%';
+FLUSH PRIVILEGES;
+EOF
+
+
+echo "---------------------------------------------------"
+
+# Create the new user
+
+read -p "Enter the name of User 3: " username3
+useradd -m $username3 -s /bin/bash
+
+# Set the user's password
+echo  "$username3:password" | chpasswd 
+
+echo "User '$username3' created and added to the sudo group."
+
+# Setup a read only user in MariaDB and a new user on Ubuntu
+mysql -u root -ppassword <<EOF
+CREATE USER '$username3'@'%' IDENTIFIED BY 'password';
+GRANT SELECT ON *.* TO '$username3'@'%';
+FLUSH PRIVILEGES;
+EOF
+
+
+echo "---------------------------------------------------"
+
+
+
+
+
+
+# Add the user to the sudo group
+usermod -aG sudo $username
+usermod -aG sudo $username1
+usermod -aG sudo $username2
+usermod -aG sudo $username3
+
+
+
 echo " "
 echo "┌─┐┌─┐┌┬┐┌─┐┬  ┌─┐┌┬┐┌─┐┬┬";
 echo "│  │ ││││├─┘│  ├┤  │ ├┤ ││";
